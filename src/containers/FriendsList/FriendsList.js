@@ -1,12 +1,11 @@
 import React from 'react'
+import Search from './Search';
+
 
 export default function FriendsList() {
     return (
         <div className="people-list" id="people-list">
-            <div className="search">
-                <input type="text" placeholder="search" />
-                <i className="fa fa-search"></i>
-            </div>
+            <Search/>
             <ul className="list">
                 <li className="clearfix">
                     <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg" alt="avatar" />
