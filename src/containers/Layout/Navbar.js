@@ -6,11 +6,9 @@ import { startLogout } from './../../actions/auth';
 
 export function Navbar({avatar, name, startLogout}) {
     const navStyle = {
-        // display: 'inline-block',
         display: 'table',
         width: '100%',
         height: '50px',
-        backgroundColor: '#f48642',
         marginBottom: '20px'
     };
 
@@ -27,16 +25,19 @@ export function Navbar({avatar, name, startLogout}) {
     const nameStyle = {
         color: '#000',
         display: 'table-cell',
-        // marginLeft: 'auto'
+        float: 'right'
+    }
+
+    const btnLogoutStyle = {
         float: 'right'
     }
 
 
     return (
         <div className="row" style={navStyle}>
-        <button onClick={startLogout}>Đăng xuất</button>
-            <p style={nameStyle}>{firebase.auth().currentUser.displayName}</p>
-            <img src={firebase.auth().currentUser.photoURL} alt="Avatar" style={avatarStyle}></img>
+        <p style={nameStyle}>{firebase.auth().currentUser.displayName}</p>
+        <img src={firebase.auth().currentUser.photoURL} alt="Avatar" style={avatarStyle}></img>
+        <button onClick={startLogout} style={btnLogoutStyle}>Đăng xuất</button>
         </div>
     )
 }

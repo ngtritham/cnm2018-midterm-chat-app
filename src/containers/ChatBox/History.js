@@ -62,7 +62,7 @@ export class Messages extends React.Component {
         let listMess = [];
         this.props.mess.list.forEach((element, index) => {
             listMess.push(
-                <Message key={index} mess={element} auth={this.props.auth} user={this.props.user} />
+                <Message key={index + 9999} mess={element} auth={this.props.auth} user={this.props.user} />
             )
         });
 

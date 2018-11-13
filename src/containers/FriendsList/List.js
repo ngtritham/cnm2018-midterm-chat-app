@@ -1,19 +1,8 @@
 import React from 'react'
 import Friend from './Friend';
+import Search from './Search';
 import { connect } from 'react-redux';
 import { startUsersList } from './../../actions/users';
-
-// export default function List() {
-//     return (
-//         <ul className="list">
-//             <Friend/>
-//             <Friend/>
-//             <Friend/>
-//         </ul>
-//     )
-// }
-
-
 
 export class FriendsList extends React.Component {
     state = ({
@@ -28,9 +17,11 @@ export class FriendsList extends React.Component {
         let listFriend = [];
         this.props.users.forEach(element => {
             if(element.uid !== this.props.auth.uid) {
-                listFriend.push(
-                    <Friend key={element.uid} friendInfo={element} handleOnClick={this.props.handleOnClick} />
-                )
+                if(this.state.filter === "" || element.displayName.toLowerCase().indexOf(this.state.filter.toLowerCase()) !== -1) {
+                    listFriend.push(
+                        <Friend key={element.uid} friendInfo={element} handleOnClick={this.props.handleOnClick} />
+                    )
+                }
             }
 
         });
@@ -38,11 +29,22 @@ export class FriendsList extends React.Component {
         return listFriend;
     }
 
+    handleSearchChange = (e) => {
+        console.log(e.target)
+        this.setState({
+            filter: e.target.value,
+        })
+    }
+
     render() {
         return (
-            <ul className="list">
-                {this.createUserComponent()}
-            </ul>
+            <div>
+                <Search onChange={this.handleSearchChange}/>
+                <ul className="list">
+                    {this.createUserComponent()}
+                </ul>
+            </div>
+
         )
     }
 }

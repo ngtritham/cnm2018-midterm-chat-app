@@ -1,5 +1,12 @@
 import React from 'react'
 
+const imgStyle = {
+    width:'100%',
+    height: '100%',
+    maxWidth:'400px',
+    maxHeight:'400px'
+}
+
 export default (props) => {
     const its_me = (props.mess.uid === props.auth.uid);
 
@@ -8,20 +15,14 @@ export default (props) => {
     if (parts) {
         parts.map((img, index) => {
             listImg.push(
-                // <li className={mine ? "sent" : "replies"}>
-                //     <img src={mine ? props.auth.avatarUrl : props.user.avatarUrl} alt="" />
-                //     <img className="imageMess" key={index} src={img} />
-                // </li>
-
                 <li className={its_me ? 'clearfix' : null}>
                     <div className={its_me ? "message-data align-right" : "message-data"} >
-                        {/* <span className="message-data-time">10:10 AM, Today</span> &nbsp; &nbsp; */}
+                        <span className="message-data-time">16:12 PM, Hôm nay</span> &nbsp; &nbsp;
                         <span className="message-data-name">{props.user.name}</span> <i className={its_me ? "fa fa-circle me" : "fa fa-circle online"} ></i>
 
                     </div>
                     <div className={its_me ? "message other-message float-right" : "message my-message"} >
-                        {/* <img key={index} src={img} width="100px" height="100px"/> */}
-                        {img}
+                        <img key={index} src={img} style={imgStyle}/>
                     </div>
                 </li>
             )
@@ -29,22 +30,16 @@ export default (props) => {
     }
 
     if (props.mess.media) {
-        console.log(props.mess.media)
         Object.values(props.mess.media).map((img, index) => {
             listImg.push(
-                // <li className={mine ? "sent" : "replies"}>
-                //     <img src={mine ? props.auth.avatarUrl : props.user.avatarUrl} alt="" />
-                //     <img className="imageMess" key={index} src={img} />
-                // </li>
                 <li className={its_me ? 'clearfix' : null}>
                     <div className={its_me ? "message-data align-right" : "message-data"} >
-                        {/* <span className="message-data-time">10:10 AM, Today</span> &nbsp; &nbsp; */}
+                        <span className="message-data-time">15:23 PM, Hôm nay</span> &nbsp; &nbsp;
                         <span className="message-data-name">{props.user.name}</span> <i className={its_me ? "fa fa-circle me" : "fa fa-circle online"} ></i>
-        
+
                     </div>
                     <div className={its_me ? "message other-message float-right" : "message my-message"} >
-                        {/* <img key={index} src={img} width="100px" height="100px"/> */}
-                        {img}
+                        <img key={index} src={img} style={imgStyle}/>
                     </div>
                 </li>
             )
@@ -56,7 +51,7 @@ export default (props) => {
         mess = (
             <li className={its_me ? 'clearfix' : null}>
                 <div className={its_me ? "message-data align-right" : "message-data"} >
-                    {/* <span className="message-data-time">10:10 AM, Today</span> &nbsp; &nbsp; */}
+                    <span className="message-data-time">13:19 PM, Hôm nay</span> &nbsp; &nbsp;
                     <span className="message-data-name">{props.user.name}</span> <i className={its_me ? "fa fa-circle me" : "fa fa-circle online"} ></i>
 
                 </div>
@@ -68,15 +63,9 @@ export default (props) => {
     }
 
     return (
-        <li className={its_me ? 'clearfix' : null}>
-            <div className={its_me ? "message-data align-right" : "message-data"} >
-                {/* <span className="message-data-time">10:10 AM, Today</span> &nbsp; &nbsp; */}
-            <span className="message-data-name">{props.user.name}</span> <i className={its_me ? "fa fa-circle me" : "fa fa-circle online"} ></i>
-
-            </div>
-            <div className={its_me ? "message other-message float-right" : "message my-message"} >
-                {props.mess.text}
-            </div>
-        </li>
+        <div>
+            {mess}
+            {listImg}
+        </div>
     )
 }
