@@ -1,8 +1,9 @@
 const defaultState = {
+    star: false,
     user: {
         uid: null,
-        displayName: "Chat With Ghost",
-        avatarUrl: "http://icons.iconarchive.com/icons/google/noto-emoji-smileys/512/10100-ghost-icon.png",
+        displayName: "",
+        avatarUrl: "",
     },
     list: [],
 };

@@ -1,15 +1,25 @@
 import React from 'react'
 
-export default function Header() {
-    return (
-        <div className="chat-header clearfix">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />
+const friendAvatarStyle = {
+    height: '55px',
+    width: '55px',
+    borderRadius: '50%'
+}
 
-            <div className="chat-about">
-                <div className="chat-with">Chat with Vincent Porter</div>
-                <div className="chat-num-messages">already 1 902 messages</div>
+export default function Header(props) {
+    if (props.friend.uid !== null) {
+        return (
+            <div className="chat-header clearfix">
+                <img src={props.friend.avatarUrl} alt="avatar" style={friendAvatarStyle} />
+
+                <div className="chat-about">
+                    <div className="chat-with">Chat with {props.friend.displayName}</div>
+                    {/* <div className="chat-num-messages">already 1 902 messages</div> */}
+                </div>
+                <i className="fa fa-star"></i>
             </div>
-            <i className="fa fa-star"></i>
-        </div>
-    )
+        )
+    } else {
+        return null;
+    }
 }

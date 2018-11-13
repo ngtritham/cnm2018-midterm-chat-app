@@ -20,8 +20,8 @@ var config = {
 };
 
 const configDB = {
-  userProfile: "users", // firebase root where user profiles are stored
-  firebaseStateName: "firebase" // should match the reducer name ('firebase' is default)
+  userProfile: "users",
+  firebaseStateName: "firebase"
 };
 
 export function configureStore(initialState = {}) {

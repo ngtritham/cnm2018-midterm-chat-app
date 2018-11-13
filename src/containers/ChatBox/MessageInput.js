@@ -1,12 +1,16 @@
 import React from 'react'
 
-export default function MessageInput() {
+export default function MessageInput({onSubmit, handleChosen}) {
     return (
         <div className="chat-message clearfix">
-            <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3"></textarea>
-            <i className="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
-            <i className="fa fa-file-image-o"></i>
-            <button>Send</button>
+            <form onSubmit={onSubmit} id="mess-form">
+                <input type="text" name="message"/>
+                <label htmlFor="file">
+                    <i className="fa fa-file-image-o" aria-hidden="true"></i>
+                </label>
+                <button name="submit">Send</button>
+                <input className="inputfile" type="file" id="file" accept="image/*" onChange={handleChosen} />
+            </form>
         </div>
     )
 }

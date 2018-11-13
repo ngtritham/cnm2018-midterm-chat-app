@@ -1,14 +1,11 @@
 import React from 'react'
-import Header from './Header';
 import History from './History';
-import MessageInput from './MessageInput';
 
-export default () => {
+export default (props) => {
     return (
         <div className="chat">
-            <Header/>
+            {/* <Header friend={props.friend}/> */}
             <History/>
-            <MessageInput/>
         </div>
     )
 }

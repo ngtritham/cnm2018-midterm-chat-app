@@ -16,6 +16,10 @@ import { startUsersList } from './../../actions/users';
 
 
 export class FriendsList extends React.Component {
+    state = ({
+        filter: "",
+    })
+
     componentWillMount() {
         this.props.startUsersList();
     }
@@ -23,9 +27,12 @@ export class FriendsList extends React.Component {
     createUserComponent = () => {
         let listFriend = [];
         this.props.users.forEach(element => {
-            listFriend.push(
-                <Friend key={element.uid} friendInfo={element} handleOnClick={this.props.handleOnClick} />
-            )
+            if(element.uid !== this.props.auth.uid) {
+                listFriend.push(
+                    <Friend key={element.uid} friendInfo={element} handleOnClick={this.props.handleOnClick} />
+                )
+            }
+
         });
 
         return listFriend;

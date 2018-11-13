@@ -1,110 +1,92 @@
-// import React from 'react'
-
-// export default () => {
-//     return (
-//         <div className="chat-history">
-//             <ul>
-//                 <li className="clearfix">
-//                     <div className="message-data align-right">
-//                         <span className="message-data-time">10:10 AM, Today</span> &nbsp; &nbsp;
-//                         <span className="message-data-name">Olia</span> <i className="fa fa-circle me"></i>
-
-//                     </div>
-//                     <div className="message other-message float-right">
-//                         Hi Vincent, how are you? How is the project coming along?
-//                     </div>
-//                 </li>
-
-//                 <li>
-//                     <div className="message-data">
-//                         <span className="message-data-name"><i className="fa fa-circle online"></i> Vincent</span>
-//                         <span className="message-data-time">10:12 AM, Today</span>
-//                     </div>
-//                     <div className="message my-message">
-//                         Are we meeting today? Project has been already finished and I have results to show you.
-//                     </div>
-//                 </li>
-
-//                 <li className="clearfix">
-//                     <div className="message-data align-right">
-//                         <span className="message-data-time">10:14 AM, Today</span> &nbsp; &nbsp;
-//                         <span className="message-data-name">Olia</span> <i className="fa fa-circle me"></i>
-
-//                     </div>
-//                     <div className="message other-message float-right">
-//                         Well I am not sure. The rest of the team is not here yet. Maybe in an hour or so? Have you faced any
-//                         problems at the last phase of the project?
-//                     </div>
-//                 </li>
-
-//                 <li>
-//                     <div className="message-data">
-//                         <span className="message-data-name"><i className="fa fa-circle online"></i> Vincent</span>
-//                         <span className="message-data-time">10:20 AM, Today</span>
-//                     </div>
-//                     <div className="message my-message">
-//                         Actually everything was fine. I'm very excited to show this to our team.
-//                     </div>
-//                 </li>
-
-//                 {/* <li>
-//                     <div className="message-data">
-//                         <span className="message-data-name"><i className="fa fa-circle online"></i> Vincent</span>
-//                         <span className="message-data-time">10:31 AM, Today</span>
-//                     </div>
-//                     <i className="fa fa-circle online"></i>
-//                     <i className="fa fa-circle online" style="color: #AED2A6"></i>
-//                     <i className="fa fa-circle online" style="color:#DAE9DA"></i>
-//                 </li> */}
-
-//             </ul>
-
-//         </div>
-//     )
-// }
-
 import React from 'react';
 import Message from './Message';
+import MessageInput from './MessageInput';
+import Header from './Header';
 import { connect } from 'react-redux';
 import { sendMessage, startListening } from './../../actions/messages';
 
 export class Messages extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            preImg: [],
+            inputImg: [],
+        };
+    }
+
     onSubmit = (e) => {
         e.preventDefault();
         const message = e.target.message.value;
 
-        if (!message.trim()) {
+        if (!message.trim() && this.state.inputImg === []) {
+            console.log(this.state.inputImg)
             e.target.submit.diabled = true;
             return;
         }
 
-        this.props.sendMessage(this.props.user.uid, message);
+
+        this.props.sendMessage(this.props.user.uid, message, this.state.inputImg);
         e.target.reset();
+
+        this.setState({
+            preImg: [],
+            inputImg: [],
+        })
     }
 
-    scrollToBottom = () => {
-        this.messagesEnd.scrollIntoView({ behavior: "auto" });
+    handleChosen = (event) => {
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                let preImgs = this.state.preImg.concat(e)
+                this.setState({ preImg: preImgs })
+            }
+            reader.readAsDataURL(event.target.files[0])
+
+            let tmp = this.state.inputImg.concat(event.target.files[0])
+            this.setState({ inputImg: tmp })
+            event.target.value = null;
+        }
     }
 
-    componentDidUpdate() {
-        this.scrollToBottom();
+    handleImageClick = (e) => {
+        let rm = e.target.getAttribute('data-key')
+        let tmpPre = this.state.preImg
+        tmpPre.splice(rm, 1)
+        let tmpIn = this.state.inputImg
+        tmpIn.splice(rm, 1)
+        this.setState({ inputImg: tmpIn, preImg: tmpPre })
     }
 
     render() {
         let listMess = [];
-        this.props.mess.list.forEach(element => {
+        this.props.mess.list.forEach((element, index) => {
             listMess.push(
-                <Message mess={element} auth={this.props.auth} user={this.props.user} />
+                <Message key={index} mess={element} auth={this.props.auth} user={this.props.user} />
             )
         });
 
-        return (
-            <div className="chat-history">
-                <ul>
-                    {listMess}
-                </ul>
+        let listimg = this.state.preImg.map((img, index) => {
+            return (
+                <img key={index} data-key={index} src={img.target.result} width="48" height="48"
+                    onClick={(e) => this.handleImageClick(e)} />
+            )
+        })
 
+        return (
+            <div>
+                <Header friend={this.props.user}/>
+                <div className="chat-history">
+                    <ul>
+                        {listMess}
+                    </ul>
+                </div>
+                <MessageInput onSubmit={(e) => this.onSubmit(e)} handleChosen={(e) => this.handleChosen(e)}/>
+                <div>
+                    {listimg}
+                </div>
             </div>
+
         )
     }
 }
@@ -116,7 +98,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    sendMessage: (uid, text) => dispatch(sendMessage(uid, text)),
+    sendMessage: (uid, text, img) => dispatch(sendMessage(uid, text, img)),
     startListening: (uid) => dispatch(startListening(uid))
 });
 
