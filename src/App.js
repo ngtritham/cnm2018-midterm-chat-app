@@ -79,10 +79,11 @@ import { Provider } from 'react-redux';
 import AppRouter, { history } from './routers/AppRouter';
 import { login, logout } from './actions/auth';
 import { firebase, configureStore } from './firebase/firebase';
+import './App.css';
+import FriendsList from './containers/FriendsList/index';
+import ChatBox from './containers/ChatBox/index';
 
-
-
-const initialState = window.__INITIAL_STATE__ // set initial state here
+const initialState = window.__INITIAL_STATE__;
 const store = configureStore(initialState);
 
 firebase.auth().onAuthStateChanged((user) => {
@@ -98,13 +99,18 @@ firebase.auth().onAuthStateChanged((user) => {
 	}
 });
 
+
 class App extends Component {
 	render() {
 		return (
+			// <div className="container clearfix">
+			// 	<FriendsList />
+			// 	<ChatBox />
+			// </div>
 			<Provider store={store}>
 				<AppRouter />
 			</Provider>
-		)
+		);
 	}
 }
 

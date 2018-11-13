@@ -1,25 +1,48 @@
 import React from 'react'
-import Account from './../../components/Layout/Account';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import firebase from 'firebase';
+import { startLogout } from './../../actions/auth';
 
-export default () => {
+export function Navbar({avatar, name, startLogout}) {
+    const navStyle = {
+        // display: 'inline-block',
+        display: 'table',
+        width: '100%',
+        height: '50px',
+        backgroundColor: '#f48642',
+        marginBottom: '20px'
+    };
+
+    const avatarStyle = {
+        marginTop: '30px',
+        verticalAlign: 'middle',
+        width: '50px',
+        height: '50px',
+        borderRadius: '50%',
+        display: 'table-cell',
+        marginLeft: 'auto'
+    }
+
+    const nameStyle = {
+        color: '#000',
+        display: 'table-cell',
+        // marginLeft: 'auto'
+        float: 'right'
+    }
+
+
     return (
-        <div id="navbar-full">
-            <div id="navbar">
-                <nav className="navbar navbar-ct-blue navbar-fixed-top" role="navigation">
-                    <div className="container">
-                        <div className="navbar-header">
-                            <a className="navbar-brand navbar-brand-logo" href="http://www.creative-tim.com">
-                                <div className="logo">
-                                    <img src="https://s3.amazonaws.com/creativetim_bucket/new_logo.png" alt=""/>
-                                </div>
-                                <div className="brand"> Creative Tham </div>
-                            </a>
-                        </div>
-                        <Account/>
-                    </div>
-                </nav>
-            </div>
-
+        <div className="row" style={navStyle}>
+        <button onClick={startLogout}>Đăng xuất</button>
+            <p style={nameStyle}>{firebase.auth().currentUser.displayName}</p>
+            <img src={firebase.auth().currentUser.photoURL} alt="Avatar" style={avatarStyle}></img>
         </div>
     )
 }
+
+const mapDispatchToProps = (dispatch) => ({
+    startLogout: () => dispatch(startLogout())
+});
+
+export default connect(undefined, mapDispatchToProps)(Navbar);

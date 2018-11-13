@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function CurrentChatFriend() {
+export default function Header() {
     return (
         <div className="chat-header clearfix">
             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />
